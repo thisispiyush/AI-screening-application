@@ -54,3 +54,10 @@ sample_data/*.webp
 *.tmp
 *.temp
 tmp/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
