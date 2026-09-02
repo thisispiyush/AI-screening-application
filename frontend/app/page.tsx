@@ -1,13 +1,8 @@
 /**
  * frontend/app/page.tsx
  * ----------------------
- * Landing page — shows the upload form and, after analysis, the result dashboard.
- *
- * State machine:
- *   "idle"      → upload form is visible, ready for input
- *   "loading"   → form submitted, waiting for API response
- *   "result"    → API responded successfully, show ResultDashboard
- *   "error"     → API or network error, show error message
+ * Landing page — Veritas Identity AI Document Screening System.
+ * Compact desktop density & refined scale matching the Stitch design language.
  */
 
 "use client";
@@ -23,22 +18,22 @@ type PageState = "idle" | "loading" | "result" | "error";
 export default function HomePage() {
   // ── File state ──────────────────────────────────────────────────────────────
   const [files, setFiles] = useState<UploadFiles>({
-    passport:    null,
-    visa:        null,
+    passport: null,
+    visa: null,
     personPhoto: null,
   });
 
   // Preview object URLs (generated client-side for display)
   const [previews, setPreviews] = useState<{
-    passport:    string | null;
-    visa:        string | null;
+    passport: string | null;
+    visa: string | null;
     personPhoto: string | null;
   }>({ passport: null, visa: null, personPhoto: null });
 
   // ── UI state ─────────────────────────────────────────────────────────────────
-  const [pageState,  setPageState]  = useState<PageState>("idle");
-  const [result,     setResult]     = useState<ScreeningResponse | null>(null);
-  const [errorMsg,   setErrorMsg]   = useState<string>("");
+  const [pageState, setPageState] = useState<PageState>("idle");
+  const [result, setResult] = useState<ScreeningResponse | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   // ── File change handler ──────────────────────────────────────────────────────
   const handleFileChange = useCallback(
@@ -61,12 +56,12 @@ export default function HomePage() {
   const handleAnalyze = async () => {
     // Client-side required-field check
     if (!files.passport) {
-      setErrorMsg("Please upload a passport image.");
+      setErrorMsg("Please upload an Identity Document (Passport).");
       setPageState("error");
       return;
     }
     if (!files.personPhoto) {
-      setErrorMsg("Please upload a person/live photo.");
+      setErrorMsg("Please upload a Person Photo (Live Selfie or Face Shot).");
       setPageState("error");
       return;
     }
@@ -82,7 +77,6 @@ export default function HomePage() {
       );
       setResult(data);
       setPageState("result");
-      // Scroll to top to show results
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "An unexpected error occurred.");
@@ -104,182 +98,281 @@ export default function HomePage() {
   // ─────────────────────────────────────────────────────────────────────────────
 
   return (
-    <main className="min-h-screen px-4 py-10 flex flex-col items-center">
-
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <header className="w-full max-w-4xl mb-10 text-center">
-        {/* Logo mark */}
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-[0_0_40px_rgba(124,58,237,0.4)] mb-5">
-          <span className="text-2xl">🛡️</span>
-        </div>
-
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-3">
-          AI Identity Document{" "}
-          <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-            Screening
-          </span>
-        </h1>
-        <p className="text-slate-400 max-w-xl mx-auto text-sm leading-relaxed">
-          Upload an identity document and live photo for AI-assisted screening.
-          This is a <span className="text-violet-400 font-medium">hackathon prototype</span> — not an official government verification system.
-        </p>
-
-        {/* Tag row */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4">
-          {["OCR", "Tampering Detection", "Face Verification", "Risk Scoring"].map((tag) => (
-            <span key={tag} className="text-xs bg-white/5 border border-white/10 text-slate-400 px-3 py-1 rounded-full">
-              {tag}
+    <div className="min-h-screen flex flex-col bg-background text-on-background">
+      {/* ── TopAppBar / Masthead ───────────────────────────────────────────── */}
+      <header className="w-full top-0 sticky z-50 bg-background border-b-2 border-on-background neo-shadow transition-all">
+        <div className="flex justify-between items-center w-full px-4 md:px-8 py-2.5 md:py-3 max-w-6xl mx-auto">
+          <div className="flex items-center gap-3">
+            <span className="text-xl md:text-2xl font-bold tracking-tight text-primary uppercase font-display">
+              Veritas Identity
             </span>
-          ))}
+            <span className="hidden sm:inline-block text-[10px] font-mono uppercase bg-primary-fixed text-on-background px-2 py-0.5 border border-on-background font-bold">
+              Screening System
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div
+              className="flex items-center justify-center p-1.5 border-2 border-on-background neo-shadow-sm bg-surface"
+              title="System Security Integrity Active"
+            >
+              <span className="material-symbols-outlined text-on-background block text-lg">security</span>
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* ── Result or Upload Form ────────────────────────────────────────────── */}
-      {pageState === "result" && result ? (
-        <div className="w-full animate-fade-in-up">
-          {/* Back button */}
-          <div className="max-w-4xl mx-auto mb-6 flex items-center gap-4">
-            <button
-              id="analyze-new-btn"
-              onClick={handleReset}
-              className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
-            >
-              ← Analyze a new document
-            </button>
+      {/* ── Main Content Area ───────────────────────────────────────────────── */}
+      <main className="flex-grow w-full max-w-6xl mx-auto px-4 md:px-8 py-5 md:py-7">
+        {pageState === "result" && result ? (
+          /* ── Result Dashboard View ────────────────────────────────────────── */
+          <div className="animate-fade-in-up">
+            <div className="mb-5 flex items-center justify-between">
+              <button
+                id="analyze-new-btn"
+                onClick={handleReset}
+                className="px-4 py-2 bg-surface border-2 border-on-background neo-shadow neo-shadow-hover font-mono text-xs uppercase tracking-wider font-bold text-on-background flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-sm">arrow_back</span>
+                Analyze New Document
+              </button>
+              <div className="font-mono text-xs text-on-surface-variant uppercase">
+                Status: Complete
+              </div>
+            </div>
+
+            <ResultDashboard
+              result={result}
+              passportPreview={previews.passport}
+              personPreview={previews.personPhoto}
+            />
           </div>
-          <ResultDashboard
-            result={result}
-            passportPreview={previews.passport}
-            personPreview={previews.personPhoto}
-          />
-        </div>
-      ) : (
-        /* ── Upload Form ──────────────────────────────────────────────────── */
-        <div className="w-full max-w-3xl">
-          <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-[0_8px_64px_rgba(0,0,0,0.6)] p-8">
-            {/* Top accent */}
-            <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent" />
-
-            <h2 className="text-lg font-semibold text-white mb-6">
-              Upload Documents
-            </h2>
-
-            {/* Three upload zones */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <UploadZone
-                label="Passport"
-                required
-                icon="📗"
-                hint="Front page of passport — JPEG, PNG, WebP"
-                file={files.passport}
-                previewUrl={previews.passport}
-                onChange={handleFileChange("passport")}
-              />
-              <UploadZone
-                label="Person Photo"
-                required
-                icon="🤳"
-                hint="Live photo or clear face shot"
-                file={files.personPhoto}
-                previewUrl={previews.personPhoto}
-                onChange={handleFileChange("personPhoto")}
-              />
+        ) : (
+          /* ── Idle / Upload View (Stitch Spec) ─────────────────────────────── */
+          <div>
+            {/* Headline */}
+            <div className="mb-5 md:mb-6">
+              <h1 className="text-2xl md:text-4xl font-bold text-on-background uppercase tracking-tight font-display">
+                AI Identity Document Screening
+              </h1>
+              <p className="text-xs md:text-sm font-mono text-on-surface-variant mt-1">
+                Automated forensic validation & biometric verification pipeline. Prototype for demo purposes.
+              </p>
             </div>
 
-            <div className="mb-8">
-              <UploadZone
-                label="Visa (Optional)"
-                icon="🗂️"
-                hint="Visa page — optional"
-                file={files.visa}
-                previewUrl={previews.visa}
-                onChange={handleFileChange("visa")}
-              />
-            </div>
-
-            {/* Error message */}
+            {/* Error Notification Banner */}
             {pageState === "error" && errorMsg && (
               <div
                 role="alert"
-                className="mb-5 flex items-start gap-3 rounded-xl bg-red-500/10 border border-red-500/30 px-4 py-3"
+                className="mb-5 border-2 border-on-background bg-error-container p-3.5 neo-shadow flex items-start justify-between gap-3"
               >
-                <span className="text-xl shrink-0">⛔</span>
-                <div>
-                  <p className="text-sm font-medium text-red-300">
-                    Error
-                  </p>
-                  <p className="text-sm text-red-200/70 mt-0.5">
-                    {errorMsg}
-                  </p>
+                <div className="flex items-start gap-2.5">
+                  <span className="material-symbols-outlined text-error text-xl shrink-0">error</span>
+                  <div>
+                    <h4 className="font-bold text-error uppercase font-mono text-xs">Action Required</h4>
+                    <p className="text-xs font-mono text-on-background mt-0.5">{errorMsg}</p>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setErrorMsg("")}
+                  className="text-[11px] font-mono uppercase font-bold text-error hover:underline shrink-0"
+                >
+                  Dismiss
+                </button>
               </div>
             )}
 
-            {/* Analyze button */}
-            <button
-              id="analyze-btn"
-              onClick={handleAnalyze}
-              disabled={pageState === "loading"}
-              aria-busy={pageState === "loading"}
-              className={`
-                w-full py-3.5 px-6 rounded-xl font-semibold text-white
-                flex items-center justify-center gap-3
-                transition-all duration-200
-                ${pageState === "loading"
-                  ? "bg-violet-700/60 cursor-not-allowed opacity-70"
-                  : "bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 hover:shadow-[0_0_32px_rgba(124,58,237,0.5)] active:scale-[0.98]"
-                }
-              `}
-            >
-              {pageState === "loading" ? (
-                <>
-                  {/* Spinner */}
-                  <svg
-                    className="w-5 h-5 animate-spin"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12" cy="12" r="10"
-                      stroke="currentColor" strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
-                    />
-                  </svg>
-                  Analyzing document…
-                </>
-              ) : (
-                <>
-                  🔍 Analyze Document
-                </>
-              )}
-            </button>
-
-            {/* Flow indicator */}
-            <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
-              {["Upload", "OCR", "Validate", "Tampering", "Face", "Risk", "Result"].map(
-                (step, i, arr) => (
-                  <div key={step} className="flex items-center gap-1.5">
-                    <span className="text-xs text-slate-600 font-medium">{step}</span>
-                    {i < arr.length - 1 && (
-                      <span className="text-slate-700">→</span>
-                    )}
+            {/* 2-Column Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+              {/* Left Column: Upload Blocks (col-span-8) */}
+              <div className="lg:col-span-8 flex flex-col gap-5">
+                {/* Required Documents Section */}
+                <div>
+                  <div className="font-mono text-[11px] font-bold text-on-background uppercase tracking-widest mb-2.5 inline-block bg-primary-fixed px-2 py-0.5 border border-on-background">
+                    REQUIRED
                   </div>
-                )
-              )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                    {/* Identity Document (Passport) */}
+                    <UploadZone
+                      label="Identity Document"
+                      subtitle="Upload Front & Back"
+                      required={true}
+                      iconName="add_photo_alternate"
+                      badgeIcon="upload_file"
+                      hint="JPG, PNG, WebP (Max 10MB)"
+                      file={files.passport}
+                      previewUrl={previews.passport}
+                      onChange={handleFileChange("passport")}
+                      variant="card"
+                    />
+
+                    {/* Person Photo */}
+                    <UploadZone
+                      label="Person Photo"
+                      subtitle="Live Selfie or Face Shot"
+                      required={true}
+                      iconName="camera_alt"
+                      badgeIcon="face"
+                      hint="JPG, PNG, WebP (Max 10MB)"
+                      file={files.personPhoto}
+                      previewUrl={previews.personPhoto}
+                      onChange={handleFileChange("personPhoto")}
+                      variant="card"
+                    />
+                  </div>
+                </div>
+
+                {/* Optional Documents Section */}
+                <div>
+                  <div className="font-mono text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2.5 inline-block bg-surface-container-high px-2 py-0.5 border border-outline-variant">
+                    OPTIONAL
+                  </div>
+
+                  <UploadZone
+                    label="Visa Document"
+                    subtitle="For non-citizens or special travel status"
+                    required={false}
+                    hint="JPG, PNG, WebP (Max 10MB)"
+                    file={files.visa}
+                    previewUrl={previews.visa}
+                    onChange={handleFileChange("visa")}
+                    variant="visa"
+                  />
+                </div>
+              </div>
+
+              {/* Right Column: Parameters & Trigger (col-span-4) */}
+              <div className="lg:col-span-4 flex flex-col gap-5">
+                {/* Analysis Parameters Box */}
+                <div className="border-2 border-on-background bg-surface-container p-4 md:p-5 shadow-[4px_4px_0px_0px_rgba(27,27,32,1)]">
+                  <h3 className="text-base md:text-lg font-bold text-on-background mb-3 uppercase border-b-2 border-on-background pb-1.5 font-display">
+                    Analysis Parameters
+                  </h3>
+                  <div className="flex flex-col gap-2.5 mt-3">
+                    <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked
+                        readOnly
+                        className="w-4 h-4 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
+                      />
+                      <span className="font-mono text-xs text-on-background font-medium">
+                        Enable OCR Extraction
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked
+                        readOnly
+                        className="w-4 h-4 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
+                      />
+                      <span className="font-mono text-xs text-on-background font-medium">
+                        Biometric Face Match
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked
+                        readOnly
+                        className="w-4 h-4 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
+                      />
+                      <span className="font-mono text-xs text-on-background font-medium">
+                        Tamper Detection (Advanced)
+                      </span>
+                    </label>
+                  </div>
+
+                  <div className="mt-4 pt-2.5 border-t border-outline-variant text-[10px] font-mono text-on-surface-variant leading-relaxed">
+                    * Pipeline parameters active for this prototype screening session.
+                  </div>
+                </div>
+
+                {/* Primary Analyze Button */}
+                <button
+                  id="analyze-btn"
+                  onClick={handleAnalyze}
+                  disabled={pageState === "loading"}
+                  aria-busy={pageState === "loading"}
+                  className={`
+                    w-full bg-primary text-on-primary border-2 border-on-background
+                    shadow-[6px_6px_0px_0px_rgba(27,27,32,1)] py-3 font-display text-lg uppercase tracking-wider
+                    hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(27,27,32,1)]
+                    active:translate-x-[6px] active:translate-y-[6px] active:shadow-none
+                    transition-all duration-100 flex items-center justify-center gap-2.5 font-bold
+                    ${pageState === "loading" ? "opacity-75 cursor-wait" : "cursor-pointer"}
+                  `}
+                >
+                  {pageState === "loading" ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+                      </svg>
+                      <span className="text-base">Analyzing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-xl">document_scanner</span>
+                      <span>Analyze Document</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Process Indicator Strip */}
+            <div className="mt-8 border-t-2 border-on-background pt-5 overflow-x-auto pb-2">
+              <div className="flex items-center gap-1.5 font-mono text-[11px] whitespace-nowrap min-w-max text-on-surface-variant">
+                <span className="bg-primary text-on-primary px-2.5 py-1 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(27,27,32,1)] font-bold uppercase">
+                  1. Upload
+                </span>
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                  2. OCR
+                </span>
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                  3. Validation
+                </span>
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                  4. Tampering
+                </span>
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                  5. Face Match
+                </span>
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                  6. Risk
+                </span>
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                  7. Result
+                </span>
+              </div>
             </div>
           </div>
+        )}
+      </main>
 
-          {/* Disclaimer */}
-          <p className="text-center text-xs text-slate-600 mt-5">
-            Demo uses synthetic/fictional data only. Do not upload real government documents.
-          </p>
+      {/* ── Footer ──────────────────────────────────────────────────────────── */}
+      <footer className="w-full mt-auto border-t-2 border-on-background bg-surface-container">
+        <div className="flex flex-col md:flex-row justify-between items-center w-full px-4 md:px-8 py-3.5 gap-3 max-w-6xl mx-auto font-mono text-[11px] text-on-surface-variant">
+          <div>© 2026 Veritas Identity. Secured by structural integrity. Hackathon Prototype.</div>
+          <div className="flex flex-wrap gap-4">
+            <span className="hover:text-primary transition-colors cursor-pointer">Privacy Policy</span>
+            <span className="hover:text-primary transition-colors cursor-pointer">Security Standards</span>
+            <span className="hover:text-primary transition-colors cursor-pointer">Terms of Service</span>
+            <span className="hover:text-primary transition-colors cursor-pointer">Compliance</span>
+          </div>
         </div>
-      )}
-    </main>
+      </footer>
+    </div>
   );
 }

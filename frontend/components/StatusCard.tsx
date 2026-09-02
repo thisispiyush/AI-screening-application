@@ -1,11 +1,11 @@
 /**
  * frontend/components/StatusCard.tsx
  * ------------------------------------
- * Reusable glassmorphism card for each section of the result dashboard.
+ * Neo-Brutalist container card matching the Stitch Veritas Identity spec.
  *
  * Props:
  *   title     — Section heading text
- *   icon      — Emoji or SVG string shown next to the title
+ *   icon      — Optional icon string or Material Symbol name
  *   children  — Card body content
  *   className — Optional extra Tailwind classes
  */
@@ -15,6 +15,7 @@ interface StatusCardProps {
   icon?: string;
   children: React.ReactNode;
   className?: string;
+  headerAction?: React.ReactNode;
 }
 
 export default function StatusCard({
@@ -22,35 +23,21 @@ export default function StatusCard({
   icon,
   children,
   className = "",
+  headerAction,
 }: StatusCardProps) {
   return (
-    <div
-      className={`
-        relative rounded-2xl border border-white/10
-        bg-white/5 backdrop-blur-sm
-        shadow-[0_4px_32px_rgba(0,0,0,0.4)]
-        p-6 transition-all duration-300
-        hover:border-white/20 hover:bg-white/8
-        ${className}
-      `}
-    >
-      {/* Top accent line */}
-      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-
-      {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
-        {icon && (
-          <span className="text-xl leading-none" aria-hidden>
-            {icon}
-          </span>
-        )}
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-400">
+    <div className={`border-2 border-on-background bg-surface neo-shadow flex flex-col ${className}`}>
+      {/* Header with high contrast black bar */}
+      <div className="bg-on-background text-on-primary px-4 py-3 border-b-2 border-on-background font-mono text-xs uppercase tracking-widest flex justify-between items-center">
+        <span className="font-bold flex items-center gap-2">
+          {icon && <span className="material-symbols-outlined text-sm">{icon}</span>}
           {title}
-        </h2>
+        </span>
+        {headerAction}
       </div>
 
       {/* Body */}
-      <div>{children}</div>
+      <div className="p-5 flex-1">{children}</div>
     </div>
   );
 }
