@@ -2,13 +2,7 @@
  * frontend/app/page.tsx
  * ----------------------
  * Landing page — Veritas Identity AI Document Screening System.
- * Implements the Stitch Neo-Brutalist design spec for the IDLE/UPLOAD state.
- *
- * State machine:
- *   "idle"      → Upload form matching Stitch layout
- *   "loading"   → Analyzing state with spinner and disabled action
- *   "result"    → Shows ResultDashboard
- *   "error"     → Error banner with retry option
+ * Compact desktop density & refined scale matching the Stitch design language.
  */
 
 "use client";
@@ -107,42 +101,42 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col bg-background text-on-background">
       {/* ── TopAppBar / Masthead ───────────────────────────────────────────── */}
       <header className="w-full top-0 sticky z-50 bg-background border-b-2 border-on-background neo-shadow transition-all">
-        <div className="flex justify-between items-center w-full px-4 md:px-10 py-4 max-w-screen-2xl mx-auto">
+        <div className="flex justify-between items-center w-full px-4 md:px-8 py-2.5 md:py-3 max-w-6xl mx-auto">
           <div className="flex items-center gap-3">
-            <span className="text-2xl md:text-3xl font-bold tracking-tight text-primary uppercase font-display">
+            <span className="text-xl md:text-2xl font-bold tracking-tight text-primary uppercase font-display">
               Veritas Identity
             </span>
-            <span className="hidden sm:inline-block text-[11px] font-mono uppercase bg-primary-fixed text-on-background px-2 py-0.5 border border-on-background font-semibold">
+            <span className="hidden sm:inline-block text-[10px] font-mono uppercase bg-primary-fixed text-on-background px-2 py-0.5 border border-on-background font-bold">
               Screening System
             </span>
           </div>
           <div className="flex items-center gap-3">
             <div
-              className="flex items-center justify-center p-2 border-2 border-on-background neo-shadow-sm bg-surface"
+              className="flex items-center justify-center p-1.5 border-2 border-on-background neo-shadow-sm bg-surface"
               title="System Security Integrity Active"
             >
-              <span className="material-symbols-outlined text-on-background block">security</span>
+              <span className="material-symbols-outlined text-on-background block text-lg">security</span>
             </div>
           </div>
         </div>
       </header>
 
       {/* ── Main Content Area ───────────────────────────────────────────────── */}
-      <main className="flex-grow w-full max-w-screen-xl mx-auto px-4 md:px-10 py-8 md:py-12">
+      <main className="flex-grow w-full max-w-6xl mx-auto px-4 md:px-8 py-5 md:py-7">
         {pageState === "result" && result ? (
           /* ── Result Dashboard View ────────────────────────────────────────── */
           <div className="animate-fade-in-up">
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-5 flex items-center justify-between">
               <button
                 id="analyze-new-btn"
                 onClick={handleReset}
-                className="px-5 py-2.5 bg-surface border-2 border-on-background neo-shadow neo-shadow-hover font-mono text-sm uppercase tracking-wider font-bold text-on-background flex items-center gap-2"
+                className="px-4 py-2 bg-surface border-2 border-on-background neo-shadow neo-shadow-hover font-mono text-xs uppercase tracking-wider font-bold text-on-background flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                 Analyze New Document
               </button>
               <div className="font-mono text-xs text-on-surface-variant uppercase">
-                Status: Screening Complete
+                Status: Complete
               </div>
             </div>
 
@@ -156,11 +150,11 @@ export default function HomePage() {
           /* ── Idle / Upload View (Stitch Spec) ─────────────────────────────── */
           <div>
             {/* Headline */}
-            <div className="mb-8 md:mb-12">
-              <h1 className="text-3xl md:text-5xl font-bold text-on-background uppercase tracking-tight font-display">
+            <div className="mb-5 md:mb-6">
+              <h1 className="text-2xl md:text-4xl font-bold text-on-background uppercase tracking-tight font-display">
                 AI Identity Document Screening
               </h1>
-              <p className="text-sm md:text-base font-mono text-on-surface-variant mt-2">
+              <p className="text-xs md:text-sm font-mono text-on-surface-variant mt-1">
                 Automated forensic validation & biometric verification pipeline. Prototype for demo purposes.
               </p>
             </div>
@@ -169,19 +163,19 @@ export default function HomePage() {
             {pageState === "error" && errorMsg && (
               <div
                 role="alert"
-                className="mb-8 border-2 border-on-background bg-error-container p-4 neo-shadow flex items-start justify-between gap-4"
+                className="mb-5 border-2 border-on-background bg-error-container p-3.5 neo-shadow flex items-start justify-between gap-3"
               >
-                <div className="flex items-start gap-3">
-                  <span className="material-symbols-outlined text-error text-2xl shrink-0">error</span>
+                <div className="flex items-start gap-2.5">
+                  <span className="material-symbols-outlined text-error text-xl shrink-0">error</span>
                   <div>
-                    <h4 className="font-bold text-error uppercase font-mono text-sm">Action Required</h4>
-                    <p className="text-sm font-mono text-on-background mt-0.5">{errorMsg}</p>
+                    <h4 className="font-bold text-error uppercase font-mono text-xs">Action Required</h4>
+                    <p className="text-xs font-mono text-on-background mt-0.5">{errorMsg}</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setErrorMsg("")}
-                  className="text-xs font-mono uppercase font-bold text-error hover:underline shrink-0"
+                  className="text-[11px] font-mono uppercase font-bold text-error hover:underline shrink-0"
                 >
                   Dismiss
                 </button>
@@ -189,16 +183,16 @@ export default function HomePage() {
             )}
 
             {/* 2-Column Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
               {/* Left Column: Upload Blocks (col-span-8) */}
-              <div className="lg:col-span-8 flex flex-col gap-8">
+              <div className="lg:col-span-8 flex flex-col gap-5">
                 {/* Required Documents Section */}
                 <div>
-                  <div className="font-mono text-xs font-bold text-on-background uppercase tracking-widest mb-4 inline-block bg-primary-fixed px-2.5 py-1 border border-on-background">
+                  <div className="font-mono text-[11px] font-bold text-on-background uppercase tracking-widest mb-2.5 inline-block bg-primary-fixed px-2 py-0.5 border border-on-background">
                     REQUIRED
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                     {/* Identity Document (Passport) */}
                     <UploadZone
                       label="Identity Document"
@@ -216,7 +210,7 @@ export default function HomePage() {
                     {/* Person Photo */}
                     <UploadZone
                       label="Person Photo"
-                      subtitle="Live Selfie or High-Res Image"
+                      subtitle="Live Selfie or Face Shot"
                       required={true}
                       iconName="camera_alt"
                       badgeIcon="face"
@@ -230,8 +224,8 @@ export default function HomePage() {
                 </div>
 
                 {/* Optional Documents Section */}
-                <div className="mt-2">
-                  <div className="font-mono text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4 inline-block bg-surface-container-high px-2.5 py-1 border border-outline-variant">
+                <div>
+                  <div className="font-mono text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2.5 inline-block bg-surface-container-high px-2 py-0.5 border border-outline-variant">
                     OPTIONAL
                   </div>
 
@@ -249,52 +243,52 @@ export default function HomePage() {
               </div>
 
               {/* Right Column: Parameters & Trigger (col-span-4) */}
-              <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="lg:col-span-4 flex flex-col gap-5">
                 {/* Analysis Parameters Box */}
-                <div className="border-2 border-on-background bg-surface-container p-6 shadow-[4px_4px_0px_0px_rgba(27,27,32,1)]">
-                  <h3 className="text-xl font-bold text-on-background mb-4 uppercase border-b-2 border-on-background pb-2 font-display">
+                <div className="border-2 border-on-background bg-surface-container p-4 md:p-5 shadow-[4px_4px_0px_0px_rgba(27,27,32,1)]">
+                  <h3 className="text-base md:text-lg font-bold text-on-background mb-3 uppercase border-b-2 border-on-background pb-1.5 font-display">
                     Analysis Parameters
                   </h3>
-                  <div className="flex flex-col gap-4 mt-4">
-                    <label className="flex items-center gap-3 cursor-pointer select-none">
+                  <div className="flex flex-col gap-2.5 mt-3">
+                    <label className="flex items-center gap-2.5 cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked
                         readOnly
-                        className="w-5 h-5 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
+                        className="w-4 h-4 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
                       />
-                      <span className="font-mono text-sm text-on-background font-medium">
+                      <span className="font-mono text-xs text-on-background font-medium">
                         Enable OCR Extraction
                       </span>
                     </label>
 
-                    <label className="flex items-center gap-3 cursor-pointer select-none">
+                    <label className="flex items-center gap-2.5 cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked
                         readOnly
-                        className="w-5 h-5 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
+                        className="w-4 h-4 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
                       />
-                      <span className="font-mono text-sm text-on-background font-medium">
+                      <span className="font-mono text-xs text-on-background font-medium">
                         Biometric Face Match
                       </span>
                     </label>
 
-                    <label className="flex items-center gap-3 cursor-pointer select-none">
+                    <label className="flex items-center gap-2.5 cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked
                         readOnly
-                        className="w-5 h-5 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
+                        className="w-4 h-4 border-2 border-on-background text-primary accent-primary rounded-none bg-white cursor-pointer"
                       />
-                      <span className="font-mono text-sm text-on-background font-medium">
+                      <span className="font-mono text-xs text-on-background font-medium">
                         Tamper Detection (Advanced)
                       </span>
                     </label>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-outline-variant text-[11px] font-mono text-on-surface-variant leading-relaxed">
-                    * Pipeline parameters are active for this prototype screening session.
+                  <div className="mt-4 pt-2.5 border-t border-outline-variant text-[10px] font-mono text-on-surface-variant leading-relaxed">
+                    * Pipeline parameters active for this prototype screening session.
                   </div>
                 </div>
 
@@ -306,24 +300,24 @@ export default function HomePage() {
                   aria-busy={pageState === "loading"}
                   className={`
                     w-full bg-primary text-on-primary border-2 border-on-background
-                    shadow-[8px_8px_0px_0px_rgba(27,27,32,1)] py-4 font-display text-xl uppercase tracking-wider
-                    hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(27,27,32,1)]
-                    active:translate-x-[8px] active:translate-y-[8px] active:shadow-none
-                    transition-all duration-100 flex items-center justify-center gap-3 font-bold
+                    shadow-[6px_6px_0px_0px_rgba(27,27,32,1)] py-3 font-display text-lg uppercase tracking-wider
+                    hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(27,27,32,1)]
+                    active:translate-x-[6px] active:translate-y-[6px] active:shadow-none
+                    transition-all duration-100 flex items-center justify-center gap-2.5 font-bold
                     ${pageState === "loading" ? "opacity-75 cursor-wait" : "cursor-pointer"}
                   `}
                 >
                   {pageState === "loading" ? (
                     <>
-                      <svg className="w-5 h-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                      <svg className="w-4 h-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
                       </svg>
-                      <span>Analyzing Document...</span>
+                      <span className="text-base">Analyzing...</span>
                     </>
                   ) : (
                     <>
-                      <span className="material-symbols-outlined text-2xl">document_scanner</span>
+                      <span className="material-symbols-outlined text-xl">document_scanner</span>
                       <span>Analyze Document</span>
                     </>
                   )}
@@ -332,33 +326,33 @@ export default function HomePage() {
             </div>
 
             {/* Process Indicator Strip */}
-            <div className="mt-16 border-t-2 border-on-background pt-8 overflow-x-auto pb-4">
-              <div className="flex items-center gap-2 font-mono text-xs whitespace-nowrap min-w-max text-on-surface-variant">
-                <span className="bg-primary text-on-primary px-3 py-1.5 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(27,27,32,1)] font-bold uppercase">
+            <div className="mt-8 border-t-2 border-on-background pt-5 overflow-x-auto pb-2">
+              <div className="flex items-center gap-1.5 font-mono text-[11px] whitespace-nowrap min-w-max text-on-surface-variant">
+                <span className="bg-primary text-on-primary px-2.5 py-1 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(27,27,32,1)] font-bold uppercase">
                   1. Upload
                 </span>
-                <span className="material-symbols-outlined text-outline text-base">arrow_forward</span>
-                <span className="px-3 py-1.5 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
                   2. OCR
                 </span>
-                <span className="material-symbols-outlined text-outline text-base">arrow_forward</span>
-                <span className="px-3 py-1.5 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
                   3. Validation
                 </span>
-                <span className="material-symbols-outlined text-outline text-base">arrow_forward</span>
-                <span className="px-3 py-1.5 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
                   4. Tampering
                 </span>
-                <span className="material-symbols-outlined text-outline text-base">arrow_forward</span>
-                <span className="px-3 py-1.5 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
                   5. Face Match
                 </span>
-                <span className="material-symbols-outlined text-outline text-base">arrow_forward</span>
-                <span className="px-3 py-1.5 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
                   6. Risk
                 </span>
-                <span className="material-symbols-outlined text-outline text-base">arrow_forward</span>
-                <span className="px-3 py-1.5 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
+                <span className="material-symbols-outlined text-outline text-sm">arrow_forward</span>
+                <span className="px-2.5 py-1 border-2 border-outline-variant bg-surface-container-low text-outline font-medium uppercase">
                   7. Result
                 </span>
               </div>
@@ -369,7 +363,7 @@ export default function HomePage() {
 
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
       <footer className="w-full mt-auto border-t-2 border-on-background bg-surface-container">
-        <div className="flex flex-col md:flex-row justify-between items-center w-full px-4 md:px-10 py-6 gap-4 max-w-screen-2xl mx-auto font-mono text-xs text-on-surface-variant">
+        <div className="flex flex-col md:flex-row justify-between items-center w-full px-4 md:px-8 py-3.5 gap-3 max-w-6xl mx-auto font-mono text-[11px] text-on-surface-variant">
           <div>© 2026 Veritas Identity. Secured by structural integrity. Hackathon Prototype.</div>
           <div className="flex flex-wrap gap-4">
             <span className="hover:text-primary transition-colors cursor-pointer">Privacy Policy</span>
