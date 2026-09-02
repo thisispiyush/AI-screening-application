@@ -1,0 +1,44 @@
+# backend/requirements.txt
+# Core backend dependencies for the AI Identity Document Screening System MVP.
+#
+# NOTE: Using flexible version pins (>=) so pip can select pre-built wheels
+# for any Python version, including Python 3.13/3.14.
+#
+# ─── Web Framework ────────────────────────────────────────────────────────────
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# ─── Data validation ──────────────────────────────────────────────────────────
+pydantic>=2.9.0
+
+# ─── Environment variables ────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+
+# ─── File upload support ──────────────────────────────────────────────────────
+python-multipart>=0.0.9
+
+# ─── HTTP client (useful for testing) ────────────────────────────────────────
+httpx>=0.27.0
+
+# ─── Testing ──────────────────────────────────────────────────────────────────
+pytest>=8.3.0
+pytest-asyncio>=0.23.0
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AI MODULE DEPENDENCIES (add when teammates integrate their modules)
+# ─────────────────────────────────────────────────────────────────────────────
+# Uncomment the library your teammate uses:
+#
+# OCR:
+#   easyocr>=1.7.0
+#   pytesseract>=0.3.10
+#   Pillow>=10.4.0
+#
+# Tampering Detection:
+#   opencv-python-headless>=4.10.0
+#   Pillow>=10.4.0
+#   numpy>=1.26.0
+#
+# Face Verification:
+#   deepface>=0.0.92
+#   insightface>=0.7.3

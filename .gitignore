@@ -1,0 +1,56 @@
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+env/
+.venv/
+*.egg-link
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# ─── Environment Variables ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+
+# ─── Node / Next.js ──────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+
+# ─── Document uploads (never commit real documents) ───────────────────────────
+sample_data/*.jpg
+sample_data/*.jpeg
+sample_data/*.png
+sample_data/*.webp
+# Keep the README
+!sample_data/README.md
+
+# ─── Temp files ───────────────────────────────────────────────────────────────
+*.tmp
+*.temp
+tmp/
